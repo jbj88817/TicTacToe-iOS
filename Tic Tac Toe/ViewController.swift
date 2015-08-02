@@ -20,6 +20,8 @@ class ViewController: UIViewController {
     
     var winningCombinations = [[0,1,2], [3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
     
+    var counter = 0
+    
     @IBOutlet weak var playAgainBtn: UIButton!
     @IBOutlet weak var button: UIButton!
     
@@ -27,24 +29,13 @@ class ViewController: UIViewController {
     
     @IBAction func playAgainPressed(sender: AnyObject) {
         
-         activePlayer = 1
-        
-         gameActive = true
-        
-         gameState = [0,0,0,0,0,0,0,0,0]
-        
-        var button = UIButton()
-        
-        for var i = 0; i < 9; i++ {
-            button  = view.viewWithTag(i) as! UIButton
-            button.setImage(nil, forState: .Normal)
-        }
+        resetGameForTie()
         
         gameOverLabel.hidden = true
         playAgainBtn.hidden = true
         gameOverLabel.center = CGPointMake(gameOverLabel.center.x - 400, gameOverLabel.center.y)
         playAgainBtn.center = CGPointMake(playAgainBtn.center.x - 400, playAgainBtn.center.y)
-
+        
         
     }
     
@@ -77,7 +68,7 @@ class ViewController: UIViewController {
                     var labelText = "Noughts Has Won!"
                     
                     if gameState[combination[0]] == 2 {
-
+                        
                         labelText =  "Crosses Has Won!"
                     }
                     
@@ -92,10 +83,17 @@ class ViewController: UIViewController {
                     })
                     
                     gameActive = false
+                    counter = -1
                 }
                 
             }
             
+            counter++
+            
+            if counter == 9 {
+                resetGameForTie()
+                counter = 0
+            }
         }
         
     }
@@ -108,7 +106,7 @@ class ViewController: UIViewController {
         playAgainBtn.hidden = true
         gameOverLabel.center = CGPointMake(gameOverLabel.center.x - 400, gameOverLabel.center.y)
         playAgainBtn.center = CGPointMake(playAgainBtn.center.x - 400, playAgainBtn.center.y)
-
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -117,7 +115,24 @@ class ViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-           }
+    }
+    
+    func resetGameForTie() {
+        
+        activePlayer = 1
+        
+        gameActive = true
+        
+        gameState = [0,0,0,0,0,0,0,0,0]
+        
+        var button = UIButton()
+        
+        for var i = 0; i < 9; i++ {
+            button  = view.viewWithTag(i) as! UIButton
+            button.setImage(nil, forState: .Normal)
+        }
+        
+    }
     
     
 }
